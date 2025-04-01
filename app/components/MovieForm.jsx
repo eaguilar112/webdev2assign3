@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const MovieForm = ({ initialData = {}, onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
         setError('');
     };
 
@@ -34,10 +34,16 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
             const movieData = {
                 title: formData.title,
                 releaseYear,
-                actors: formData.actors.split(',').map(actor => actor.trim())
+                actors: formData.actors.split(',').map((actor) => actor.trim())
             };
 
-            await onSubmit(movieData);
+            if (initialData.id) {
+                // If there's an id, update the movie (PATCH request)
+                await onSubmit(movieData, initialData.id, 'PATCH');
+            } else {
+                // Otherwise, create a new movie (POST request)
+                await onSubmit(movieData, null, 'POST');
+            }
         } catch (err) {
             setError('Failed to save movie. Please try again.');
             console.error('Error submitting form:', err);
@@ -60,7 +66,10 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
 
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block text-gray-700 mb-2" htmlFor="title">
+                    <label
+                        className="block text-gray-700 mb-2"
+                        htmlFor="title"
+                    >
                         Title
                     </label>
                     <input
@@ -76,7 +85,10 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 mb-2" htmlFor="releaseDate">
+                    <label
+                        className="block text-gray-700 mb-2"
+                        htmlFor="releaseDate"
+                    >
                         Release Year
                     </label>
                     <input
@@ -88,7 +100,6 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
                         className="w-full px-3 py-2 border rounded"
                         required
                         disabled={isSubmitting}
-                        // Set min/max dates to reasonable values
                         min="1900-01-01"
                         max={`${new Date().getFullYear() + 5}-12-31`}
                     />
@@ -98,7 +109,10 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 mb-2" htmlFor="actors">
+                    <label
+                        className="block text-gray-700 mb-2"
+                        htmlFor="actors"
+                    >
                         Actors (comma separated)
                     </label>
                     <textarea
@@ -117,7 +131,11 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-blue-400"
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? 'Processing...' : initialData.id ? 'Update Movie' : 'Add Movie'}
+                    {isSubmitting
+                        ? 'Processing...'
+                        : initialData.id
+                        ? 'Update Movie'
+                        : 'Add Movie'}
                 </button>
             </form>
         </div>
