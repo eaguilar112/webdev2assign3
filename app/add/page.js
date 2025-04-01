@@ -12,7 +12,7 @@ const AddMoviePage = () => {
     const handleSubmit = async (movieData) => {
         try {
 
-            const response = await fetch('/movies', {
+            const response = await fetch('/pages/api/add.ts', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
