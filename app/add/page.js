@@ -12,14 +12,14 @@ const AddMoviePage = () => {
     const handleSubmit = async (movieData) => {
         try {
 
-            // const response = await fetch('/api'), {
-            //   method: 'POST',
-            //   headers: {
-            //     'Content-Type': 'application/json',
-            //   },
-            //   body: JSON.stringify(movieData),
-            // });
-            await router.push('/movies');
+            const response = await fetch('/movies', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(movieData),
+            });
+            router.push('/movies');
         } catch (error) {
             console.error('Error adding movie:', error);
         }

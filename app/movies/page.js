@@ -9,12 +9,49 @@ const MoviesPage = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
 
-  //  useEffect(() => {
-    //    const fetchMovies = async () => {
-      //      try {
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const response = await fetch('/pages/api/');
+                const data = await response.json();
+                setMovies(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+                setLoading(false);
+            }
+        };
 
-                // const response = await fetch('/api');
-                // const data = await response.json();
+        fetchMovies();
+    }, []); 
+
+    const updateMovie = async (movieId, updatedData) => {
+        try {
+            const response = await fetch('/pages/api/', { 
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: movieId, ...updatedData }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update movie');
+            }
+
+            const updatedMovie = await response.json();
+
+            setMovies((prevMovies) =>
+                prevMovies.map((movie) =>
+                    movie.id === updatedMovie.id ? updatedMovie : movie
+                )
+            );
+
+            console.log('Movie updated:', updatedMovie);
+        } catch (error) {
+            console.error('Error updating movie:', error);
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -24,7 +61,10 @@ const MoviesPage = () => {
                 {loading ? (
                     <p>Loading movies...</p>
                 ) : (
-                    <MovieList movies={movies} />
+                    <MovieList
+                        movies={movies}
+                        onUpdateMovie={updateMovie}
+                    />
                 )}
             </main>
             <Footer />
