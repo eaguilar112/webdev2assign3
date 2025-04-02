@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         data: {
           title,
           actors,
-          releaseYear: parseInt(releaseYear),
+          releaseYear
         },
       });
       return NextResponse.json(movie, { status: 200 });
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
         data: {
           title,
           actors,
-          releaseYear: parseInt(releaseYear),
+          releaseYear
         },
       });
 
