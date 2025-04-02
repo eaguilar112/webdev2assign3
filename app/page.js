@@ -27,13 +27,9 @@ export default function Home() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Navbar userRole={userRole} />
-
             <main className="flex-grow">
                 <MovieList movies={movies} userRole={userRole} />
             </main>
-
-            <Footer />
         </div>
     );
 }

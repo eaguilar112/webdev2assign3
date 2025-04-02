@@ -27,12 +27,10 @@ const AddMoviePage = () => {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Navbar />
             <main className="flex-grow container mx-auto p-4">
                 <h1 className="text-3xl font-bold mb-6">Add New Movie</h1>
                 <MovieForm onSubmit={handleSubmit} />
             </main>
-            <Footer />
         </div>
     );
 };
