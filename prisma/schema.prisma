@@ -17,5 +17,5 @@ model Movie {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   actors      String[]
-  releaseYear Int
+  releaseYear String?
 }
