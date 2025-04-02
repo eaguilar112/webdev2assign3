@@ -38,10 +38,8 @@ const MovieForm = ({ initialData = {}, onSubmit }) => {
             };
 
             if (initialData.id) {
-                // If there's an id, update the movie (PATCH request)
                 await onSubmit(movieData, initialData.id, 'PATCH');
             } else {
-                // Otherwise, create a new movie (POST request)
                 await onSubmit(movieData, null, 'POST');
             }
         } catch (err) {
