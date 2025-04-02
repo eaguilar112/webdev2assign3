@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
     try {
       const movieExists = await prisma.movie.findUnique({
-        where: { id: parseInt(id) },
+        where: { id },
       });
 
       if (!movieExists) {
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       }
 
       const updatedMovie = await prisma.movie.update({
-        where: { id: parseInt(id) },
+        where: { id },
         data: {
           title,
           actors,
