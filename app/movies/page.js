@@ -55,7 +55,6 @@ const MoviesPage = () => {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Navbar />
             <main className="flex-grow container mx-auto p-4">
                 <h1 className="text-3xl font-bold mb-6">Movie Database</h1>
                 {loading ? (
@@ -67,7 +66,6 @@ const MoviesPage = () => {
                     />
                 )}
             </main>
-            <Footer />
         </div>
     );
 };
